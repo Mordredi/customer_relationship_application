@@ -21,7 +21,7 @@ class CRM
     display_all_contacts if user_selected == 3
     display_attribute if user_selected == 4
     delete_contact if user_selected == 5
-    main_menu if user_selected == 6
+    return if user_selected == 6
   end
 end
 
