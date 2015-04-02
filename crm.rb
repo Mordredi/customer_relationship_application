@@ -1,3 +1,6 @@
+require_relative "contact"
+require_relative "rolodex"
+
 class CRM
   def initialize(name)
     @name = name
@@ -40,35 +43,36 @@ class CRM
     puts "Any notes about you?"
     notes = gets.chomp
     contact = Contact.new(first_name, last_name, email, notes})
-    puts "Thank you very much!"
+    if rolodex
+      rolodex.add_contact(contact)
+    else
+      rolodex = Rolodex.new
+      rolodex.add_contact(contact)
+    end
+    puts "Thank you very much #{first_name}!"
     main_menu
   end
 
   def modify_existing_contact
-    puts "Please enter id for the contact to be modified"
-    chosen_id = gets.chomp.to_i
-    puts "You chose id number #{chosen_id}. Is this correct? yes or no"
-    confirm = gets.chomp.downcase
+    confirm = choose_id
     if confirm == "yes"
-      puts "Please select number of attribute you wish to change"
-      puts "[1] First name"
-      puts "[2] Last name"
-      puts "[3] Email"
-      puts "[4] Notes"
-      attribute = gets.chomp.to_i
-      # Need to get to modify user through their id
+      select_attr
       if attribute == 1
         puts "First name:"
-        first_name = gets.chomp
+        contact.first_name = gets.chomp
+        main_menu
       elsif attribute == 2
         puts "Last name:"
-        last_name = gets.chomp
+        contact.last_name = gets.chomp
+        main_menu
       elsif attribute == 3
         puts "Email:"
-        email = gets.chomp
+        contact.email = gets.chomp
+        main_menu
       elsif attribute == 4
         puts "Notes:"
-        notes = gets.chomp
+        contact.notes = gets.chomp
+        main_menu
       end
     elsif confirm == "no"
       main_menu
@@ -78,17 +82,51 @@ class CRM
   end
 
   def display_all_contacts
-  # Code to display all contacts
+    rolodex.contacts.each do |contact|
+      puts "#{contact.first name} #{contact.last_name}"
+    end
+    main_menu
   end
 
   def display_attribute
-  puts "Please enter id for the contact you would like to view"
-  user_id = gets.chomp.to_i
-  # Code to display contact by id selected
+    chosen_id = choose_id
+    confirm = confirm_id(chosen_id)
+    if confirm == "yes"
+      select_attr
+      puts contact.first_name if attribute == 1
+      puts contact.last_name if attribute == 2
+      puts contact.email if attribute == 3
+      puts contact.notes if attribute == 4
+    end
+    main_menu
   end
 
   def delete_contact
-  # Code to delete contact
+    chosen_id = choose_id
+    confirm = confirm_id(chosen_id)
+    if confirm == yes
+      rolodex.id.find(chosen_id).delete
+    end
+    main_menu
   end
 
+  def choose_id
+    puts "Please enter id for the contact to be modified"
+    gets.chomp.to_i
+  end
+
+  def confirm_id(id)
+    puts "You chose id number #{id}. Is this correct? yes or no"
+    gets.chomp.downcase
+  end
+
+  def select_attr
+    contact = rolodex.id.find(id)
+      puts "Please select number of attribute you wish to change"
+      puts "[1] First name"
+      puts "[2] Last name"
+      puts "[3] Email"
+      puts "[4] Notes"
+      attribute = gets.chomp.to_i
+    end
 end

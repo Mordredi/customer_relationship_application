@@ -1,11 +1,9 @@
 class Rolodex
+  attr_accessor :contacts, :id
+
   def initialize
     @contacts = []
     @id = 1000
-  end
-
-  def contacts
-    @contacts
   end
 
   def add_contact(contact)
