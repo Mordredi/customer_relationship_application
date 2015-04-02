@@ -7,6 +7,32 @@ class CRM
     @rolodex = Rolodex.new
   end
 
+  MAINMENU = [
+    [:add_new_contact, "Add a contact"],
+    [:modify_contact, "Modify a contact"],
+  ]
+
+  def do_menu(menu)
+    menu.each_with_index do |(method_name, description), i|
+      puts "[#{i+1}] #{description}"
+    end
+    puts "[0] Exit program"
+
+    loop do
+      puts "Make choice now! >"
+      choice = gets.chomp.to_i
+
+      if choice <= menu.size and choice >= 0
+        break
+      else
+        puts "Unknown thingy"
+      end
+    end
+
+    exit if choice == 0
+    send(menu[choice-1].first)
+  end
+
   def print_main_menu
     puts "[1] Add a contact"
     puts "[2] Modify a contact"
@@ -24,12 +50,22 @@ class CRM
   end
 
   def call_option(user_selected)
-    add_new_contact if user_selected == 1
-    modify_existing_contact if user_selected == 2
-    display_all_contacts if user_selected == 3
-    display_attribute if user_selected == 4
-    delete_contact if user_selected == 5
-    return if user_selected == 6
+    case user_selected
+    when 1
+      add_new_contact
+    when 2
+      modify_existing_contact
+    when 3
+      display_all_contacts
+    when 4
+      display_attribute
+    when 5
+      delete_contact
+    when 6
+      exit
+    else
+      puts "unknown choice: #{user_selected}"
+    end
   end
 
  def add_new_contact
@@ -53,7 +89,7 @@ class CRM
     id = choose_id
     confirm = confirm_id(id)
     if confirm == "yes"
-      contact = Customer.id == id
+      contact = Customer.id == confirm_id
       attribute = select_attr
       if attribute == 1
         puts "First name:"
