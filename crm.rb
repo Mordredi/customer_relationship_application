@@ -42,13 +42,8 @@ class CRM
     email = gets.chomp
     puts "Any notes about you?"
     notes = gets.chomp
-    contact = Contact.new(first_name, last_name, email, notes})
-    if rolodex
-      rolodex.add_contact(contact)
-    else
-      rolodex = Rolodex.new
-      rolodex.add_contact(contact)
-    end
+    contact = Contact.new(first_name, last_name, email, notes)
+    @rolodex.add_contact(contact)
     puts "Thank you very much #{first_name}!"
     main_menu
   end
@@ -82,7 +77,7 @@ class CRM
   end
 
   def display_all_contacts
-    rolodex.contacts.each do |contact|
+    @rolodex.contacts.each do |contact|
       puts "#{contact.first name} #{contact.last_name}"
     end
     main_menu
@@ -105,7 +100,7 @@ class CRM
     chosen_id = choose_id
     confirm = confirm_id(chosen_id)
     if confirm == yes
-      rolodex.id.find(chosen_id).delete
+      @rolodex.id.find(chosen_id).delete
     end
     main_menu
   end
@@ -121,7 +116,7 @@ class CRM
   end
 
   def select_attr
-    contact = rolodex.id.find(id)
+    contact = @rolodex.id.find(id)
       puts "Please select number of attribute you wish to change"
       puts "[1] First name"
       puts "[2] Last name"
@@ -129,4 +124,5 @@ class CRM
       puts "[4] Notes"
       attribute = gets.chomp.to_i
     end
+  @rolodex = Rolodex.new
 end
