@@ -4,6 +4,7 @@ require_relative "rolodex"
 class CRM
   def initialize(name)
     @name = name
+    @rolodex = Rolodex.new
   end
 
   def print_main_menu
@@ -49,9 +50,11 @@ class CRM
   end
 
   def modify_existing_contact
-    confirm = choose_id
+    id = choose_id
+    confirm = confirm_id(id)
     if confirm == "yes"
-      select_attr
+      contact = Customer.id == id
+      attribute = select_attr
       if attribute == 1
         puts "First name:"
         contact.first_name = gets.chomp
@@ -78,7 +81,7 @@ class CRM
 
   def display_all_contacts
     @rolodex.contacts.each do |contact|
-      puts "#{contact.first name} #{contact.last_name}"
+      puts "#{contact.first_name} #{contact.last_name}"
     end
     main_menu
   end
@@ -115,8 +118,11 @@ class CRM
     gets.chomp.downcase
   end
 
+  def select_contact(id)
+  end
+
+
   def select_attr
-    contact = @rolodex.id.find(id)
       puts "Please select number of attribute you wish to change"
       puts "[1] First name"
       puts "[2] Last name"
@@ -124,5 +130,7 @@ class CRM
       puts "[4] Notes"
       attribute = gets.chomp.to_i
     end
-  @rolodex = Rolodex.new
 end
+
+crm = CRM.new("Hello")
+crm.main_menu
