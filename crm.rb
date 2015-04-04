@@ -132,14 +132,7 @@ class CRM
   end
 
   def display_all_contacts
-    @rolodex.contacts.each do |contact|
-      puts "\e[H\e[2J"
-      puts "Id: #{contact.id}"
-      puts "Name: #{contact.first_name} #{contact.last_name}"
-      puts "Email: #{contact.email}"
-      puts "Notes: #{contact.notes}"
-      puts ""
-    end
+    @rolodex.display_contacts
     main_menu
   end
 
