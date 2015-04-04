@@ -9,6 +9,9 @@ class CRM
 
   def self.run(name)
     crm = CRM.new(name)
+    puts "\e[H\e[2J"
+    puts "Welcome!"
+    puts ""
     crm.main_menu
   end
 
@@ -75,7 +78,7 @@ class CRM
   end
 
  def add_new_contact
-    puts "Welcome!"
+    puts "\e[H\e[2J"
     puts "Please supply the following information"
     puts "First name:"
     first_name = gets.chomp
@@ -87,6 +90,7 @@ class CRM
     notes = gets.chomp
     contact = Contact.new(first_name, last_name, email, notes)
     @rolodex.add_contact(contact)
+    puts "\e[H\e[2J"
     puts "Thank you very much #{first_name}!"
     main_menu
   end
@@ -100,29 +104,32 @@ class CRM
       if attribute == 1
         puts "First name:"
         contact.first_name = gets.chomp
-        main_menu
+        response
       elsif attribute == 2
         puts "Last name:"
         contact.last_name = gets.chomp
-        main_menu
+        response
       elsif attribute == 3
         puts "Email:"
         contact.email = gets.chomp
-        main_menu
+        response
       elsif attribute == 4
         puts "Notes:"
         contact.notes = gets.chomp
-        main_menu
+        response
       end
     elsif confirm == "no"
-      main_menu
+      response
     else
+      puts "\e[H\e[2J"
       puts "Please select yes or no"
+      main_menu
     end
   end
 
   def display_all_contacts
     @rolodex.contacts.each do |contact|
+      puts "\e[H\e[2J"
       puts "#{contact.first_name} #{contact.last_name}"
     end
     main_menu
@@ -139,7 +146,7 @@ class CRM
       puts contact.email if attribute == 3
       puts contact.notes if attribute == 4
     end
-    main_menu
+    response
   end
 
   def delete_contact
@@ -148,7 +155,7 @@ class CRM
     if confirm == "yes"
       @rolodex.delete_contact(id)
     end
-    main_menu
+    response
   end
 
   def choose_id
@@ -168,6 +175,13 @@ class CRM
     puts "[3] Email"
     puts "[4] Notes"
     gets.chomp.to_i
+  end
+
+  def response
+    puts "\e[H\e[2J"
+    puts "Thanks"
+    puts ""
+    main_menu
   end
 end
 
