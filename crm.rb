@@ -49,6 +49,7 @@ class CRM
     puts "[4] Display an attribute"
     puts "[5] Delete a contact"
     puts "[6] Exit"
+    puts ""
     puts "Enter a number:"
   end
 
@@ -73,7 +74,10 @@ class CRM
     when 6
       exit
     else
+      puts "\e[H\e[2J"
       puts "unknown choice: #{user_selected}"
+      puts ""
+      main_menu
     end
   end
 
@@ -130,7 +134,11 @@ class CRM
   def display_all_contacts
     @rolodex.contacts.each do |contact|
       puts "\e[H\e[2J"
-      puts "#{contact.first_name} #{contact.last_name}"
+      puts "Id: #{contact.id}"
+      puts "Name: #{contact.first_name} #{contact.last_name}"
+      puts "Email: #{contact.email}"
+      puts "Notes: #{contact.notes}"
+      puts ""
     end
     main_menu
   end
