@@ -7,31 +7,37 @@ class CRM
     @rolodex = Rolodex.new
   end
 
-  MAINMENU = [
-    [:add_new_contact, "Add a contact"],
-    [:modify_contact, "Modify a contact"],
-  ]
-
-  def do_menu(menu)
-    menu.each_with_index do |(method_name, description), i|
-      puts "[#{i+1}] #{description}"
-    end
-    puts "[0] Exit program"
-
-    loop do
-      puts "Make choice now! >"
-      choice = gets.chomp.to_i
-
-      if choice <= menu.size and choice >= 0
-        break
-      else
-        puts "Unknown thingy"
-      end
-    end
-
-    exit if choice == 0
-    send(menu[choice-1].first)
+  def self.run(name)
+    crm = CRM.new(name)
+    crm.main_menu
   end
+
+
+  # MAIN_MENU = [
+  #   [:add_new_contact, "Add a contact"],
+  #   [:modify_contact, "Modify a contact"],
+  # ]
+
+  # def do_menu(menu)
+  #   menu.each_with_index do |(method_name, description), i|
+  #     puts "[#{i+1}] #{description}"
+  #   end
+  #   puts "[0] Exit program"
+
+  #   loop do
+  #     puts "Make choice now! >"
+  #     choice = gets.chomp.to_i
+
+  #     if choice <= menu.size and choice >= 0
+  #       break
+  #     else
+  #       puts "Unknown thingy"
+  #     end
+  #   end
+
+  #   exit if choice == 0
+  #   send(menu[choice-1].first)
+  # end
 
   def print_main_menu
     puts "[1] Add a contact"
@@ -89,7 +95,7 @@ class CRM
     id = choose_id
     confirm = confirm_id(id)
     if confirm == "yes"
-      contact = Customer.id == confirm_id
+      contact = @rolodex.find(id)
       attribute = select_attr
       if attribute == 1
         puts "First name:"
@@ -123,10 +129,11 @@ class CRM
   end
 
   def display_attribute
-    chosen_id = choose_id
-    confirm = confirm_id(chosen_id)
+    id = choose_id
+    confirm = confirm_id(id)
     if confirm == "yes"
-      select_attr
+      contact = @rolodex.find(id)
+      attribute = select_attr
       puts contact.first_name if attribute == 1
       puts contact.last_name if attribute == 2
       puts contact.email if attribute == 3
@@ -136,16 +143,16 @@ class CRM
   end
 
   def delete_contact
-    chosen_id = choose_id
-    confirm = confirm_id(chosen_id)
-    if confirm == yes
-      @rolodex.id.find(chosen_id).delete
+    id = choose_id
+    confirm = confirm_id(id)
+    if confirm == "yes"
+      @rolodex.delete_contact(id)
     end
     main_menu
   end
 
   def choose_id
-    puts "Please enter id for the contact to be modified"
+    puts "Please enter id for the contact"
     gets.chomp.to_i
   end
 
@@ -154,19 +161,14 @@ class CRM
     gets.chomp.downcase
   end
 
-  def select_contact(id)
-  end
-
-
   def select_attr
-      puts "Please select number of attribute you wish to change"
-      puts "[1] First name"
-      puts "[2] Last name"
-      puts "[3] Email"
-      puts "[4] Notes"
-      attribute = gets.chomp.to_i
-    end
+    puts "Please select attribute"
+    puts "[1] First name"
+    puts "[2] Last name"
+    puts "[3] Email"
+    puts "[4] Notes"
+    gets.chomp.to_i
+  end
 end
 
-crm = CRM.new("Hello")
-crm.main_menu
+CRM.run("CRM")
