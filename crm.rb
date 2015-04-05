@@ -95,7 +95,7 @@ class CRM
     contact = Contact.new(first_name, last_name, email, notes)
     @rolodex.add_contact(contact)
     puts "\e[H\e[2J"
-    puts "Thank you very much #{first_name}!"
+    puts "Thank you very much #{first_name}! ID is: #{contact.id}"
     main_menu
   end
 
@@ -146,6 +146,8 @@ class CRM
       puts contact.last_name if attribute == 2
       puts contact.email if attribute == 3
       puts contact.notes if attribute == 4
+    else
+      main_menu
     end
     response
   end
@@ -155,6 +157,8 @@ class CRM
     confirm = confirm_id(id)
     if confirm == "yes"
       @rolodex.delete_contact(id)
+    else
+      main_menu
     end
     response
   end
