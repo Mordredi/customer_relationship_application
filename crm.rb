@@ -96,10 +96,10 @@ class CRM
       contact.set_attribute(attr, new_value)
       puts "\e[H\e[2J"
       puts contact
-      response
+      main_menu
     elsif confirm == "no"
       puts "\e[H\e[2J"
-      response
+      main_menu
     else
       puts "\e[H\e[2J"
       puts "Please select yes or no"
@@ -108,33 +108,39 @@ class CRM
   end
 
   def display_all_contacts
+    puts "\e[H\e[2J"
     @rolodex.display_contacts
     main_menu
   end
 
   def display_attribute
+    puts "\e[H\e[2J"
     id = choose_id
     confirm = confirm_id(id)
     if confirm == "yes"
       contact = @rolodex.find(id)
       attr = select_attr
+      puts "\e[H\e[2J"
       puts "Attribute value is #{contact.get_attribute(attr)}"
       puts ""
       main_menu
     else
+      puts "\e[H\e[2J"
       main_menu
     end
   end
 
   def delete_contact
+    puts "\e[H\e[2J"
     id = choose_id
     confirm = confirm_id(id)
     if confirm == "yes"
       @rolodex.delete_contact(id)
     else
+      puts "\e[H\e[2J"
       main_menu
     end
-    response
+    main_menu
   end
 
   def choose_id
@@ -156,11 +162,6 @@ class CRM
     ATTRIBUTE_NAMES[gets.chomp.to_i]
   end
 
-  def response
-    puts "Thanks"
-    puts ""
-    main_menu
-  end
 end
 
 CRM.run("CRM")

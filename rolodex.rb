@@ -17,7 +17,6 @@ class Rolodex
   end
 
   def display_contacts
-    puts "\e[H\e[2J"
     @contacts.each do |contact|
       puts contact
     end
