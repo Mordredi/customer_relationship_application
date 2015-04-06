@@ -10,11 +10,15 @@ class Contact
   end
 
   def to_s
-    puts "Id: #{@id}"
-    puts "Name: #{@first_name} #{@last_name}"
-    puts "Email: #{@email}"
-    puts "Notes: #{@notes}"
-    puts ""
+   "Id: #{@id}\nName: #{@first_name} #{@last_name}\nEmail: #{@email}\nNotes: #{@notes}"
+  end
+
+  def set_attribute(attribute_name, new_value)
+    send(attribute_name + "=", new_value)
+  end
+
+  def get_attribute(attribute_name)
+    send(attribute_name)
   end
 
 end

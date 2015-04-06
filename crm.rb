@@ -16,32 +16,6 @@ class CRM
   end
 
 
-  # MAIN_MENU = [
-  #   [:add_new_contact, "Add a contact"],
-  #   [:modify_contact, "Modify a contact"],
-  # ]
-
-  # def do_menu(menu)
-  #   menu.each_with_index do |(method_name, description), i|
-  #     puts "[#{i+1}] #{description}"
-  #   end
-  #   puts "[0] Exit program"
-
-  #   loop do
-  #     puts "Make choice now! >"
-  #     choice = gets.chomp.to_i
-
-  #     if choice <= menu.size and choice >= 0
-  #       break
-  #     else
-  #       puts "Unknown thingy"
-  #     end
-  #   end
-
-  #   exit if choice == 0
-  #   send(menu[choice-1].first)
-  # end
-
   def print_main_menu
     puts "[1] Add a contact"
     puts "[2] Modify a contact"
@@ -74,7 +48,7 @@ class CRM
     when 6
       exit
     else
-      puts "\e[H\e[2J"
+      clear
       puts "unknown choice: #{user_selected}"
       puts ""
       main_menu
@@ -82,7 +56,7 @@ class CRM
   end
 
  def add_new_contact
-    puts "\e[H\e[2J"
+    clear
     puts "Please supply the following information"
     puts "First name:"
     first_name = gets.chomp
@@ -100,39 +74,34 @@ class CRM
     main_menu
   end
 
+
+
+  ATTRIBUTE_NAMES = {
+    1 => "first_name",
+    2 => "last_name",
+    3 => "email",
+    4 => "note"
+  }
+
   def modify_existing_contact
     clear
     id = choose_id
     confirm = confirm_id(id)
     if confirm == "yes"
       contact = @rolodex.find(id)
-      attribute = select_attr
-      if attribute == 1
-        puts "First name:"
-        contact.first_name = gets.chomp
-        clear
-        response
-      elsif attribute == 2
-        puts "Last name:"
-        contact.last_name = gets.chomp
-        clear
-        response
-      elsif attribute == 3
-        puts "Email:"
-        contact.email = gets.chomp
-        clear
-        response
-      elsif attribute == 4
-        puts "Notes:"
-        contact.notes = gets.chomp
-        clear
-        response
-      end
+      attr = select_attr
+      puts "Attribute value is #{contact.get_attribute(attr)}"
+      puts "Please enter your modification"
+      new_value = gets.chomp
+      contact.set_attribute(attr, new_value)
+      clear
+      puts contact
+      response
     elsif confirm == "no"
       clear
       response
     else
-      puts "\e[H\e[2J"
+      clear
       puts "Please select yes or no"
       modify_existing_contact
     end
@@ -148,20 +117,10 @@ class CRM
     confirm = confirm_id(id)
     if confirm == "yes"
       contact = @rolodex.find(id)
-      attribute = select_attr
-      if attribute == 1
-        puts contact.first_name
-        response
-      elsif attribute == 2
-        puts contact.last_name
-        response
-      elsif attribute == 3
-        puts contact.email
-        response
-      elsif attribute == 4
-        puts contact.notes
-        response
-      end
+      attr = select_attr
+      puts "Attribute value is #{contact.get_attribute(attr)}"
+      puts ""
+      main_menu
     else
       main_menu
     end
@@ -194,7 +153,7 @@ class CRM
     puts "[2] Last name"
     puts "[3] Email"
     puts "[4] Notes"
-    gets.chomp.to_i
+    ATTRIBUTE_NAMES[gets.chomp.to_i]
   end
 
   def response
