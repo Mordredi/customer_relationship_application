@@ -45,7 +45,7 @@ class CRM
   def print_main_menu
     puts "[1] Add a contact"
     puts "[2] Modify a contact"
-    puts "[3] Diplay all contacts"
+    puts "[3] Display all contacts"
     puts "[4] Display an attribute"
     puts "[5] Delete a contact"
     puts "[6] Exit"
@@ -94,12 +94,14 @@ class CRM
     notes = gets.chomp
     contact = Contact.new(first_name, last_name, email, notes)
     @rolodex.add_contact(contact)
-    puts "\e[H\e[2J"
+    clear
     puts "Thank you very much #{first_name}! ID is: #{contact.id}"
+    puts ""
     main_menu
   end
 
   def modify_existing_contact
+    clear
     id = choose_id
     confirm = confirm_id(id)
     if confirm == "yes"
@@ -108,26 +110,31 @@ class CRM
       if attribute == 1
         puts "First name:"
         contact.first_name = gets.chomp
+        clear
         response
       elsif attribute == 2
         puts "Last name:"
         contact.last_name = gets.chomp
+        clear
         response
       elsif attribute == 3
         puts "Email:"
         contact.email = gets.chomp
+        clear
         response
       elsif attribute == 4
         puts "Notes:"
         contact.notes = gets.chomp
+        clear
         response
       end
     elsif confirm == "no"
+      clear
       response
     else
       puts "\e[H\e[2J"
       puts "Please select yes or no"
-      main_menu
+      modify_existing_contact
     end
   end
 
@@ -194,6 +201,10 @@ class CRM
     puts "Thanks"
     puts ""
     main_menu
+  end
+
+  def clear
+    puts "\e[H\e[2J"
   end
 end
 

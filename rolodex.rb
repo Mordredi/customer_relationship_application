@@ -19,16 +19,12 @@ class Rolodex
   def display_contacts
     puts "\e[H\e[2J"
     @contacts.each do |contact|
-      puts "Id: #{contact.id}"
-      puts "Name: #{contact.first_name} #{contact.last_name}"
-      puts "Email: #{contact.email}"
-      puts "Notes: #{contact.notes}"
-      puts ""
+      contact.to_s
     end
   end
-
 
   def delete_contact(id)
     @contacts.delete(find(id))
   end
+
 end

@@ -7,15 +7,14 @@ class Contact
     @last_name = last_name
     @email = email
     @notes = notes
-    @id
   end
 
-  def inspect
-    fields = [:first_name, :last_name, :email, :notes, :id]
-    str = fields.map{|field| "#{field}: #{send(field)}" }.join(", ")
-    "#<Contact: #{str}>"
+  def to_s
+    puts "Id: #{@id}"
+    puts "Name: #{@first_name} #{@last_name}"
+    puts "Email: #{@email}"
+    puts "Notes: #{@notes}"
+    puts ""
   end
-
-  alias_method :to_s, :inspect
 
 end
