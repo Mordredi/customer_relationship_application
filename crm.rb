@@ -48,7 +48,7 @@ class CRM
     when 6
       exit
     else
-      clear
+      puts "\e[H\e[2J"
       puts "unknown choice: #{user_selected}"
       puts ""
       main_menu
@@ -56,7 +56,7 @@ class CRM
   end
 
  def add_new_contact
-    clear
+    puts "\e[H\e[2J"
     puts "Please supply the following information"
     puts "First name:"
     first_name = gets.chomp
@@ -68,7 +68,7 @@ class CRM
     notes = gets.chomp
     contact = Contact.new(first_name, last_name, email, notes)
     @rolodex.add_contact(contact)
-    clear
+    puts "\e[H\e[2J"
     puts "Thank you very much #{first_name}! ID is: #{contact.id}"
     puts ""
     main_menu
@@ -84,7 +84,7 @@ class CRM
   }
 
   def modify_existing_contact
-    clear
+    puts "\e[H\e[2J"
     id = choose_id
     confirm = confirm_id(id)
     if confirm == "yes"
@@ -94,14 +94,14 @@ class CRM
       puts "Please enter your modification"
       new_value = gets.chomp
       contact.set_attribute(attr, new_value)
-      clear
+      puts "\e[H\e[2J"
       puts contact
       response
     elsif confirm == "no"
-      clear
+      puts "\e[H\e[2J"
       response
     else
-      clear
+      puts "\e[H\e[2J"
       puts "Please select yes or no"
       modify_existing_contact
     end
@@ -160,10 +160,6 @@ class CRM
     puts "Thanks"
     puts ""
     main_menu
-  end
-
-  def clear
-    puts "\e[H\e[2J"
   end
 end
 
