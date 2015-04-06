@@ -142,14 +142,22 @@ class CRM
     if confirm == "yes"
       contact = @rolodex.find(id)
       attribute = select_attr
-      puts contact.first_name if attribute == 1
-      puts contact.last_name if attribute == 2
-      puts contact.email if attribute == 3
-      puts contact.notes if attribute == 4
+      if attribute == 1
+        puts contact.first_name
+        response
+      elsif attribute == 2
+        puts contact.last_name
+        response
+      elsif attribute == 3
+        puts contact.email
+        response
+      elsif attribute == 4
+        puts contact.notes
+        response
+      end
     else
       main_menu
     end
-    response
   end
 
   def delete_contact
@@ -183,7 +191,6 @@ class CRM
   end
 
   def response
-    puts "\e[H\e[2J"
     puts "Thanks"
     puts ""
     main_menu
